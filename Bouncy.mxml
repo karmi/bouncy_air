@@ -14,16 +14,27 @@
       import flash.display.NativeWindow; 
       import mx.controls.Alert;
 
+      import com.adobe.air.notification.Notification;
+      import com.adobe.air.notification.Purr;
+
       /* Alert */
       public var myAlert:Alert;
       /* Sound */
       [Embed(source="assets/sounds/Cartoon Boing.mp3")] 
       [Bindable]
-      public var sndCls:Class;
-      public var snd:Sound  = new sndCls() as Sound; 
+      private var sndCls:Class;
+      private var snd:Sound  = new sndCls() as Sound;
+      /* Purr */
+      private var purr:Purr;
+      private var notificationIcon:Bitmap;
+      [Bindable]
+			[Embed(source="assets/icons/error.png")]
+			private var alertIcon:Class;
 
       private function initializeApplication():void
       {
+        this.notificationIcon = new alertIcon();
+				this.purr = new Purr(15);
 			}
 
       private function start():void
@@ -34,25 +45,26 @@
       private function displayNotification():void
       {
         playSound();
-        bounceDockIcon();
         displayAlert();
+        displayPurr();
       }
       private function playSound():void
       {
         this.snd.play();
-      }
-      private function bounceDockIcon():void
-      {
-        if (NativeApplication.supportsDockIcon) {
-          var dockIcon:DockIcon = NativeApplication.nativeApplication.icon as DockIcon;
-          dockIcon.bounce(NotificationType.CRITICAL);
-        }
       }
       private function displayAlert():void
       { 
         myAlert = Alert.show(message.text, "Notification after " + delay.value + " seconds", Alert.OK)
         myAlert.height = 115; 
         myAlert.width = 200;
+      }
+      private function displayPurr():void
+      {
+        this.purr.alert(NotificationType.CRITICAL, this.nativeWindow);
+        var n:Notification = new Notification("Alert", this.message.text, null, 5, this.notificationIcon);
+				n.width = 200;
+				this.purr.addNotification(n);
+				navigateToURL(new URLRequest('http://www.google.com'));
       }
     ]]>
   </mx:Script>
