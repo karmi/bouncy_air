@@ -1,0 +1,8 @@
+WindowedApplication
+  { background-color: "0x999999";
+    background-alpha: "0.9"; }
+
+.header
+  { color: #000;
+    fontSize: 22;
+    text-align: center; }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://ns.adobe.com/air/application/1.5">
+  <id>Bouncy</id>
+  <version>0.1</version>
+  <filename>Bouncy</filename>
+  <description>Just. Fooling. Around</description>
+  <copyright>Copyright (c) 2006 Example Co.</copyright>
+
+  <initialWindow>
+      <content>Bouncy.swf</content>
+      <visible>true</visible>
+      <systemChrome>none</systemChrome>
+      <transparent>true</transparent>
+      <width>400</width>
+      <height>200</height>
+  </initialWindow>
+
+  <icon>
+    <image16x16>assets/icons/AIRApp_16.png</image16x16>
+    <image32x32>assets/icons/AIRApp_32.png</image32x32>
+    <image48x48>assets/icons/AIRApp_48.png</image48x48>
+    <image128x128>assets/icons/AIRApp_128.png</image128x128>
+  </icon>
+
+</application>

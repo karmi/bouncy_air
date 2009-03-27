@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication
+  xmlns:mx="http://www.adobe.com/2006/mxml"
+  layout="absolute"
+  title="Bouncy"
+  creationComplete="initializeApplication()">
+
+  <mx:Script>
+    <![CDATA[
+      import flash.utils.*
+      import flash.media.*;
+      import flash.desktop.DockIcon;
+      import flash.desktop.NativeApplication;
+      import flash.display.NativeWindow; 
+      import mx.controls.Alert;
+
+      /* Alert */
+      public var myAlert:Alert;
+      /* Sound */
+      [Embed(source="assets/sounds/Cartoon Boing.mp3")] 
+      [Bindable]
+      public var sndCls:Class;
+      public var snd:Sound  = new sndCls() as Sound; 
+
+      private function initializeApplication():void
+      {
+			}
+
+      private function start():void
+      {
+       var intervalId:uint = setTimeout(displayNotification, delay.value*1000);  
+      }
+
+      private function displayNotification():void
+      {
+        playSound();
+        bounceDockIcon();
+        displayAlert();
+      }
+      private function playSound():void
+      {
+        this.snd.play();
+      }
+      private function bounceDockIcon():void
+      {
+        if (NativeApplication.supportsDockIcon) {
+          var dockIcon:DockIcon = NativeApplication.nativeApplication.icon as DockIcon;
+          dockIcon.bounce(NotificationType.CRITICAL);
+        }
+      }
+      private function displayAlert():void
+      { 
+        myAlert = Alert.show(message.text, "Notification after " + delay.value + " seconds", Alert.OK)
+        myAlert.height = 115; 
+        myAlert.width = 200;
+      }
+    ]]>
+  </mx:Script>
+
+  <mx:Style source="style.css" /> 
+
+  <mx:VBox width="100%" height="100%" verticalAlign="middle" horizontalAlign="center" verticalGap="0">
+
+    <mx:Text width="100%" text="Bouncy" styleName="header" />
+
+    <mx:Form width="100%">
+
+      <mx:FormItem label="Notify after (seconds)">
+				<mx:NumericStepper id="delay" value="2" stepSize="1" maximum="10"/>
+			</mx:FormItem>
+      
+			<mx:FormItem label="Notification Message:" width="100%">
+				<mx:TextInput id="message" width="100%"/>
+			</mx:FormItem>
+
+		</mx:Form>
+
+    <mx:HBox>
+      <mx:Button id="bouncer" label="Set notification" click="start()"/>     
+    </mx:HBox>
+
+  </mx:VBox>
+
+</mx:WindowedApplication>
