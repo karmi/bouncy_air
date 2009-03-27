@@ -1,0 +1,16 @@
+= Example Rails application from Juggernaut
+
+Follow the instructions from http://juggernaut.rubyforge.org/
+
+== What?
+
+    $ juggernaut -c config/juggernaut.yml
+    $ script/server
+
+Safari to http://localhost:3000/bouncer
+Firefox to http://localhost:3000/bouncer
+
+    $ script/console
+    > Juggernaut.send_to_all("alert('Hi from Juggernaut')")
+
+Future.
