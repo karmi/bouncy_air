@@ -11,16 +11,19 @@
       import flash.media.*;
       import flash.desktop.DockIcon;
       import flash.desktop.NativeApplication;
-      import flash.display.NativeWindow; 
+      import flash.display.NativeWindow;
       import mx.controls.Alert;
 
       import com.adobe.air.notification.Notification;
       import com.adobe.air.notification.Purr;
 
+      import flash.events.*;
+      import flash.net.XMLSocket;
+
       /* Alert */
       public var myAlert:Alert;
       /* Sound */
-      [Embed(source="assets/sounds/Cartoon Boing.mp3")] 
+      [Embed(source="assets/sounds/Cartoon Boing.mp3")]
       [Bindable]
       private var sndCls:Class;
       private var snd:Sound  = new sndCls() as Sound;
@@ -35,11 +38,28 @@
       {
         this.notificationIcon = new alertIcon();
 				this.purr = new Purr(15);
+
+        /* XML Socket */
+        var xmlsock:XMLSocket = new XMLSocket();
+				xmlsock.connect("127.0.0.1", 5001);
+        xmlsock.addEventListener(DataEvent.DATA, onData);
+        xmlsock.addEventListener(Event.CONNECT, getConn)
 			}
 
-      private function start():void
+      private function startTimer():void
       {
-       var intervalId:uint = setTimeout(displayNotification, delay.value*1000);  
+       var intervalId:uint = setTimeout(displayNotification, delay.value*1000);
+      }
+
+      private function onData(event:DataEvent):void
+      {
+          /*myAlert = Alert.show(event.data, event.type, Alert.OK)*/
+          myAlert = Alert.show('Data', 'Data', Alert.OK)
+      }
+
+      private function getConn(event:Event):void
+      {
+        myAlert = Alert.show('Connection', 'Connection', Alert.OK)
       }
 
       private function displayNotification():void
@@ -53,9 +73,9 @@
         this.snd.play();
       }
       private function displayAlert():void
-      { 
+      {
         myAlert = Alert.show(message.text, "Notification after " + delay.value + " seconds", Alert.OK)
-        myAlert.height = 115; 
+        myAlert.height = 115;
         myAlert.width = 200;
       }
       private function displayPurr():void
@@ -69,7 +89,7 @@
     ]]>
   </mx:Script>
 
-  <mx:Style source="style.css" /> 
+  <mx:Style source="style.css" />
 
   <mx:VBox width="100%" height="100%" verticalAlign="middle" horizontalAlign="center" verticalGap="0">
 
@@ -80,7 +100,7 @@
       <mx:FormItem label="Notify after (seconds)">
 				<mx:NumericStepper id="delay" value="2" stepSize="1" maximum="10"/>
 			</mx:FormItem>
-      
+
 			<mx:FormItem label="Notification Message:" width="100%">
 				<mx:TextInput id="message" width="100%"/>
 			</mx:FormItem>
@@ -88,7 +108,7 @@
 		</mx:Form>
 
     <mx:HBox>
-      <mx:Button id="bouncer" label="Set notification" click="start()"/>     
+      <mx:Button id="bouncer" label="Set notification" click="startTimer()"/>
     </mx:HBox>
 
   </mx:VBox>
